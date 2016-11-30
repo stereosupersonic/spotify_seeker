@@ -1,0 +1,27 @@
+#!/usr/bin/env ruby
+
+require "spotify_seeker"
+
+def handle_file(file_name)
+  result = []
+  File.readlines(file_name).each do |line|
+    artist, track = line.split(/\s+\-\s+/)
+    track = SpotifySeeker::Track.find artist: artist, track: track
+    result << track.to_s
+  end
+
+  File.open(File.basename(file_name), "w") { |f| f << result.join("\n") }
+end
+
+search_str = ARGV.first || STDIN.read
+if File.file? search_str
+  handle_file search_str
+elsif File.directory? search_str
+  Dir.glob("#{search_str}*").each do |fname|
+    handle_file fname
+  end
+else
+  artist, track = search_str.split(/\s+\-\s+/)
+  track = SpotifySeeker::Track.find artist: artist, track: track
+  puts track
+end
