@@ -17,13 +17,13 @@ module SpotifySeeker
       "#{spotify_id} # #{artist} - #{name} | #{year}-#{album}"
     end
 
-    def self.find(artist:, track:)
-      ::SpotifySeeker::TrackFinder.new(artist: artist, track: track).find
-    end
-
-    def self.find(spotify_id)
-      rspotify_track = RSpotify::Track.find(spotify_id)
-      ::SpotifySeeker::Track.new(rspotify_track) if rspotify_track
+    def self.find(options)
+      if options.length == 1
+        rspotify_track = RSpotify::Track.find(spotify_id)
+        :SpotifySeeker::Track.new(rspotify_track) if rspotify_track
+      else
+        ::SpotifySeeker::TrackFinder.new(options).find
+      end
     end
   end
 end
