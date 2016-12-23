@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
-
+require 'rubygems'
+require 'bundler/setup'
 require "spotify_seeker"
 
 def handle_file(file_name)
