@@ -20,5 +20,10 @@ module SpotifySeeker
     def self.find(artist:, track:)
       ::SpotifySeeker::TrackFinder.new(artist: artist, track: track).find
     end
-   end
+
+    def self.find(spotify_id)
+      rspotify_track = RSpotify::Track.find(spotify_id)
+      ::SpotifySeeker::Track.new(rspotify_track) if rspotify_track
+    end
+  end
 end
